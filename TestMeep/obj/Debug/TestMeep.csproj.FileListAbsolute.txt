@@ -22,3 +22,5 @@ C:\Users\DEV\Testes\TestMeep\TestMeep\obj\Debug\TestMeep.pdb
 C:\Users\DEV\Testes\TestMeep\TestMeep\bin\Debug\nunit.framework.dll
 C:\Users\DEV\Testes\TestMeep\TestMeep\bin\Debug\nunit.framework.pdb
 C:\Users\DEV\Testes\TestMeep\TestMeep\bin\Debug\nunit.framework.xml
+C:\Users\DEV\Testes\TestMeep\TestMeep\bin\Debug\GeradorCpf.dll
+C:\Users\DEV\Testes\TestMeep\TestMeep\bin\Debug\GeradorCpf.pdb

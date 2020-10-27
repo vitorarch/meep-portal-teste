@@ -4,6 +4,9 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using GeradorCpf;
+using OpenQA.Selenium.Support.UI;
+using System.Linq;
 
 namespace SeleniumTests
 {
@@ -41,12 +44,15 @@ namespace SeleniumTests
         public void InitializeTest()
         {
             verificationErrors = new StringBuilder();
+            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
         }
 
         [TestCleanup]
         public void CleanupTest()
         {
             Assert.AreEqual("", verificationErrors.ToString());
+            driver.Close();
+            driver.Dispose();
         }
 
         [TestMethod]
@@ -54,7 +60,7 @@ namespace SeleniumTests
         {
             //Setting to a variable the expected output and the url
             string expected = "Usuário ou senha inválidos.";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+           //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //email
             driver.FindElement(By.Id("email")).Click();
@@ -80,7 +86,7 @@ namespace SeleniumTests
         {
             //Setting to a variable the expected output and the url
             string expected = "Insira sua senha.";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //email
             driver.FindElement(By.Id("email")).Click();
@@ -105,7 +111,7 @@ namespace SeleniumTests
         {
             //Setting to a variable the expected output and the url
             string expected = "Insira seu e-mail.";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //email
             driver.FindElement(By.Id("email")).Click();
@@ -131,7 +137,7 @@ namespace SeleniumTests
         {
             //Setting to a variable the expected output and the url
             string expected = "Insira seu e-mail e senha.";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //email
             driver.FindElement(By.Id("email")).Click();
@@ -156,7 +162,7 @@ namespace SeleniumTests
         public void TestCase_EmailAndPasswordCorrects()
         {
             //Site url
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //email
             driver.FindElement(By.Id("email")).Click();
@@ -204,7 +210,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -249,7 +255,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -294,7 +300,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -339,7 +345,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -384,7 +390,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -429,7 +435,7 @@ namespace SeleniumTests
         {
             //Seite url
             string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -470,11 +476,19 @@ namespace SeleniumTests
         }
 
         [TestMethod]
-        public void TestCase_RegisterFailed_EmptyConfirmPassword()
+        public void TestCase_RegisterFailed_InvalidEmail()
         {
-            //Seite url
-            string expected = "Preencha todos os campos corretamente para cadastrar";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //Site url
+            string expected = "email";
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+
+            //Random name for tests
+            string name = NomeAleatorio();
+
+            //Creating a new cpf number
+            string cpf = string.Empty;
+            GeradorCpf.GeradorCpf cpfGerado = new GeradorCpf.GeradorCpf();
+            cpf = cpfGerado.getCpf();
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -482,7 +496,55 @@ namespace SeleniumTests
             //name
             driver.FindElement(By.Id("name")).Click();
             driver.FindElement(By.Id("name")).Clear();
-            driver.FindElement(By.Id("name")).SendKeys("nome");
+            driver.FindElement(By.Id("name")).SendKeys(name);
+
+            //cpf
+            driver.FindElement(By.Id("cpf")).Click();
+            driver.FindElement(By.Id("cpf")).Clear();
+            driver.FindElement(By.Id("cpf")).SendKeys(cpf);
+
+            //email
+            driver.FindElement(By.Id("email")).Click();
+            driver.FindElement(By.Id("email")).Clear();
+            //Writing a invalid email one warning specifying the error should apper
+            driver.FindElement(By.Id("email")).SendKeys(name);
+
+            //password
+            driver.FindElement(By.Id("senha")).Click();
+            driver.FindElement(By.Id("senha")).Clear();
+            driver.FindElement(By.Id("senha")).SendKeys("senha123");
+
+            //confirm password
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Click();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Clear();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).SendKeys(string.Empty);
+
+            //Enter - click action
+            driver.FindElement(By.XPath("//div[@id='root']/div[2]/div/div[2]/form/div[6]/button/span")).Click();
+            Thread.Sleep(1000);
+
+            string output = driver.FindElement(By.ClassName("Toastify__toast-body")).Text;
+
+            Assert.IsTrue(output.Contains(expected));
+        }
+
+        [TestMethod]
+        public void TestCase_RegisterFailed_InvalidCpf()
+        {
+            //Site url
+            string expected = "cpf";
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+
+            //Random name for tests
+            string name = NomeAleatorio();
+
+            //register now - click
+            driver.FindElement(By.LinkText("Cadastrar agora")).Click();
+
+            //name
+            driver.FindElement(By.Id("name")).Click();
+            driver.FindElement(By.Id("name")).Clear();
+            driver.FindElement(By.Id("name")).SendKeys(name);
 
             //cpf
             driver.FindElement(By.Id("cpf")).Click();
@@ -492,7 +554,7 @@ namespace SeleniumTests
             //email
             driver.FindElement(By.Id("email")).Click();
             driver.FindElement(By.Id("email")).Clear();
-            driver.FindElement(By.Id("email")).SendKeys("teste@teste.com");
+            driver.FindElement(By.Id("email")).SendKeys(name + "@gmail.com");
 
             //password
             driver.FindElement(By.Id("senha")).Click();
@@ -514,11 +576,19 @@ namespace SeleniumTests
         }
 
         [TestMethod]
-        public void TestCase_RegisterSuceed()
+        public void TestCase_RegisterFailed_FormattedCpf()
         {
-            //Seite url
+            //Site url
             string expected = "Cadastro realizado com sucesso";
-            driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+
+            //Random name for tests
+            string name = NomeAleatorio();
+
+            //Creating a new formatted cpf number
+            string cpf = string.Empty;
+            GeradorCpf.GeradorCpf cpfGerado = new GeradorCpf.GeradorCpf();
+            cpf = cpfGerado.getCpfFormatted();
 
             //register now - click
             driver.FindElement(By.LinkText("Cadastrar agora")).Click();
@@ -526,27 +596,27 @@ namespace SeleniumTests
             //name
             driver.FindElement(By.Id("name")).Click();
             driver.FindElement(By.Id("name")).Clear();
-            driver.FindElement(By.Id("name")).SendKeys("fulano");
+            driver.FindElement(By.Id("name")).SendKeys(name);
 
             //cpf
             driver.FindElement(By.Id("cpf")).Click();
             driver.FindElement(By.Id("cpf")).Clear();
-            driver.FindElement(By.Id("cpf")).SendKeys("75521517065");
+            driver.FindElement(By.Id("cpf")).SendKeys(cpf);
 
             //email
             driver.FindElement(By.Id("email")).Click();
             driver.FindElement(By.Id("email")).Clear();
-            driver.FindElement(By.Id("email")).SendKeys("fulano@gmail.com");
+            driver.FindElement(By.Id("email")).SendKeys(name + "@gmail.com");
 
             //password
             driver.FindElement(By.Id("senha")).Click();
             driver.FindElement(By.Id("senha")).Clear();
-            driver.FindElement(By.Id("senha")).SendKeys("123senha");
+            driver.FindElement(By.Id("senha")).SendKeys("senha123");
 
             //confirm password
             driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Click();
             driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Clear();
-            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).SendKeys("123senha");
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).SendKeys("senha123");
 
             //Enter - click action
             driver.FindElement(By.XPath("//div[@id='root']/div[2]/div/div[2]/form/div[6]/button/span")).Click();
@@ -555,6 +625,126 @@ namespace SeleniumTests
             string output = driver.FindElement(By.ClassName("Toastify__toast-body")).Text;
 
             Assert.AreEqual(expected, output);
+        }
+
+        [TestMethod]
+        public void TestCase_RegisterFailed_PasswordNotMatch()
+        {
+            //Site url
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+
+            //Random name for tests
+            string name = NomeAleatorio();
+
+            //Creating a new cpf number
+            string cpf = string.Empty;
+            GeradorCpf.GeradorCpf cpfGerado = new GeradorCpf.GeradorCpf();
+            cpf = cpfGerado.getCpf();
+
+            //register now - click
+            driver.FindElement(By.LinkText("Cadastrar agora")).Click();
+
+            //name
+            driver.FindElement(By.Id("name")).Click();
+            driver.FindElement(By.Id("name")).Clear();
+            driver.FindElement(By.Id("name")).SendKeys(name);
+
+            //cpf
+            driver.FindElement(By.Id("cpf")).Click();
+            driver.FindElement(By.Id("cpf")).Clear();
+            driver.FindElement(By.Id("cpf")).SendKeys(cpf);
+
+            //email
+            driver.FindElement(By.Id("email")).Click();
+            driver.FindElement(By.Id("email")).Clear();
+            driver.FindElement(By.Id("email")).SendKeys(name + "@gmail.com");
+
+            //password
+            driver.FindElement(By.Id("senha")).Click();
+            driver.FindElement(By.Id("senha")).Clear();
+            driver.FindElement(By.Id("senha")).SendKeys("senha123");
+
+            //confirm password
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Click();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Clear();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).SendKeys("senha321");
+
+            //Get the passwords writted
+            string passord = driver.FindElement(By.Id("senha")).Text;
+            string confirmPasswrod = driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Text;
+
+            //Enter - click action
+            driver.FindElement(By.XPath("//div[@id='root']/div[2]/div/div[2]/form/div[6]/button/span")).Click();
+            Thread.Sleep(1000);
+
+            string output = driver.FindElement(By.ClassName("Toastify__toast-body")).Text;
+            //Writted different passwords a warning should apper telling this error
+            string expected = "senhas não conferem";
+
+            Assert.AreEqual(output, expected);
+        }
+
+        [TestMethod]
+        public void TestCase_SuccessefullRegister()
+        {
+            //Criando um nome e email aleatório para cadastrar novo usuário
+            string nome = NomeAleatorio();
+
+            //Creating a new cpf number
+            string cpf = string.Empty;
+            GeradorCpf.GeradorCpf cpfGerado = new GeradorCpf.GeradorCpf();
+            cpf = cpfGerado.getCpf();
+
+            //Seite url
+            string expected = "Cadastro realizado com sucesso";
+            //driver.Navigate().GoToUrl("https://portal-estabelecimento-dev.azurewebsites.net/login");
+
+            //register now - click
+            driver.FindElement(By.LinkText("Cadastrar agora")).Click();
+
+            //name
+            driver.FindElement(By.Id("name")).Click();
+            driver.FindElement(By.Id("name")).Clear();
+            driver.FindElement(By.Id("name")).SendKeys(nome);
+
+            //cpf
+            driver.FindElement(By.Id("cpf")).Click();
+            driver.FindElement(By.Id("cpf")).Clear();
+            driver.FindElement(By.Id("cpf")).SendKeys(cpf);
+
+            //email
+            driver.FindElement(By.Id("email")).Click();
+            driver.FindElement(By.Id("email")).Clear();
+            driver.FindElement(By.Id("email")).SendKeys(nome+"@gmail.com");
+
+            //password
+            driver.FindElement(By.Id("senha")).Click();
+            driver.FindElement(By.Id("senha")).Clear();
+            driver.FindElement(By.Id("senha")).SendKeys("123senhaAS@");
+
+            //confirm password
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Click();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).Clear();
+            driver.FindElement(By.XPath("(//input[@id='senha'])[2]")).SendKeys("123senhaAS@");
+
+            //Enter - click action
+            driver.FindElement(By.XPath("//div[@id='root']/div[2]/div/div[2]/form/div[6]/button/span")).Click();
+            Thread.Sleep(2000);
+
+            string output = driver.FindElement(By.ClassName("Toastify__toast-body")).Text;
+
+            Assert.AreEqual(expected, output);
+        }
+
+        public static string NomeAleatorio()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            var result = new string(
+                Enumerable.Repeat(chars, 7)
+                          .Select(s => s[random.Next(s.Length)])
+                          .ToArray());
+            return result;
         }
 
         private bool IsElementPresent(By by)
